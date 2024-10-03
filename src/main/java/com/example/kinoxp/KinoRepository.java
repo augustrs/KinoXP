@@ -17,14 +17,15 @@ public class KinoRepository {
                     2015, "Christopher Nolan",
                     2.5, List.of("Matthew McConaughey"),
                     "https://static.posters.cz/image/750/plakater/interstellar-ice-walk-i23290.jpg",
-                    List.of(Tags.Science_fiction, Tags.Drama, Tags.Alder15)),
+                    List.of(Tags.Science_fiction, Tags.Drama, Tags.Alder15),"2LqzF5WauAw"),
             new Movie(2L,
                     "The Shawshank Redemption",
                     "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
                     1994, "Frank Darabont",
                     2.2, List.of("Tim Robbins", "Morgan Freeman"),
                     "https://m.media-amazon.com/images/I/71715eBi1sL.jpg",
-                    List.of(Tags.Drama, Tags.Alder15)));
+                    List.of(Tags.Drama, Tags.Alder15),"PLl99DlL6b4"));
+
 
 
     public List<Movie> getMovies() {

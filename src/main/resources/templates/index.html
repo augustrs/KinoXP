@@ -25,8 +25,46 @@
 <main class="flex-grow container mx-auto mt-8 px-4">
     <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">Now Showing</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Repeat the same movie 3 times -->
-        <div th:each="i : ${#numbers.sequence(1, 3)}" class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+        <!-- Movie 1 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+            <a th:href="@{'/movie/' + ${movies[0].id}}" class="block">
+                <div class="h-96 overflow-hidden">
+                    <img th:src="${movies[0].image}" th:alt="${movies[0].title}" class="w-full h-full object-cover object-top">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold mb-2 text-yellow-400" th:text="${movies[0].title}"></h3>
+                    <p class="text-gray-300 mb-4" th:text="${#strings.abbreviate(movies[0].description, 100)}"></p>
+                    <p class="text-gray-300 mb-2">
+                        <span th:each="tag, iterStat : ${movies[0].tags}">
+                            <span th:text="${#strings.capitalize(#strings.replace(tag.name(), '_', ' '))}"></span>
+                            <span th:if="${!iterStat.last}">, </span>
+                        </span>
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Movie 2 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+            <a th:href="@{'/movie/' + ${movies[1].id}}" class="block">
+                <div class="h-96 overflow-hidden">
+                    <img th:src="${movies[1].image}" th:alt="${movies[1].title}" class="w-full h-full object-cover object-top">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold mb-2 text-yellow-400" th:text="${movies[1].title}"></h3>
+                    <p class="text-gray-300 mb-4" th:text="${#strings.abbreviate(movies[1].description, 100)}"></p>
+                    <p class="text-gray-300 mb-2">
+                        <span th:each="tag, iterStat : ${movies[1].tags}">
+                            <span th:text="${#strings.capitalize(#strings.replace(tag.name(), '_', ' '))}"></span>
+                            <span th:if="${!iterStat.last}">, </span>
+                        </span>
+                    </p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Movie 1 (repeated) -->
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
             <a th:href="@{'/movie/' + ${movies[0].id}}" class="block">
                 <div class="h-96 overflow-hidden">
                     <img th:src="${movies[0].image}" th:alt="${movies[0].title}" class="w-full h-full object-cover object-top">

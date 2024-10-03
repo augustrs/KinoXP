@@ -30,7 +30,16 @@
             </div>
             <div class="md:w-2/3 p-6">
                 <h2 class="text-3xl font-bold mb-4 text-yellow-400" th:text="${movie.title}"></h2>
-                <p class="text-gray-300 mb-4" th:text="${movie.description}"></p>
+                <div class="mb-4">
+                    <iframe th:if="${movie.youtubeVideoId != null}"
+                            th:src="'https://www.youtube.com/embed/' + ${movie.youtubeVideoId}"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            class="w-full h-64 mb-4">
+                    </iframe>
+                    <p class="text-gray-300" th:text="${movie.description}"></p>
+                </div>
                 <p class="text-gray-300 mb-2">Year: <span th:text="${movie.year}"></span></p>
                 <p class="text-gray-300 mb-2">Director: <span th:text="${movie.director}"></span></p>
                 <p class="text-gray-300 mb-2">Duration: <span th:text="${movie.time}"></span> hours</p>

@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Movie {
 
+    private String youtubeVideoId;
     private String title;
     private String description;
     private int year;
@@ -14,7 +15,8 @@ public class Movie {
     private List<Tags> tags;
     private Long id;
 
-    public Movie(Long id, String title, String description, int year, String director, double time, List<String> actors, String image, List<Tags> tags) {
+    public Movie(Long id, String title, String description, int year, String director, double time, List<String> actors, String image, List<Tags> tags, String youtubeVideoId) {
+        this.youtubeVideoId = youtubeVideoId;
         this.id = id;
         this.title = title;
         this.description = description;
@@ -96,5 +98,13 @@ public class Movie {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getYoutubeVideoId() {
+        return youtubeVideoId;
+    }
+
+    public void setYoutubeVideoId(String youtubeVideoId) {
+        this.youtubeVideoId = youtubeVideoId;
     }
 }
