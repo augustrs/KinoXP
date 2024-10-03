@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineTicket - Your Gateway to Cinema Magic</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-900 text-white">
+
+<!-- Navigation Bar -->
+<header class="bg-black text-white p-4 shadow-md">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-2xl font-bold"><i class="fas fa-film mr-2"></i>CineTicket</h1>
+    <nav>
+      <ul class="flex space-x-4">
+        <li><a href="/" class="hover:text-yellow-400 transition duration-300">Home</a></li>
+        <li><a href="/movies" class="hover:text-yellow-400 transition duration-300">Movies</a></li>
+        <li><a href="/about" class="hover:text-yellow-400 transition duration-300">About</a></li>
+        <li><a href="/contact" class="hover:text-yellow-400 transition duration-300">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+<main class="flex-grow container mx-auto mt-8 px-4">
+  <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">All Movies</h2>
+
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+    <div th:each="movie : ${movies}" class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+      <a th:href="@{'/movie/' + ${movie.id}}" class="block">
+        <div class="h-96 overflow-hidden">
+          <img th:src="${movie.image}" th:alt="${movie.title}" class="w-full h-full object-cover object-top">
+        </div>
+        <div class="p-4">
+          <h3 class="text-xl font-semibold mb-2 text-yellow-400" th:text="${movie.title}"></h3>
+          <p class="text-gray-300 mb-4" th:text="${#strings.abbreviate(movie.description, 100)}"></p>
+          <p class="text-gray-300 mb-2">
+            <span th:each="tag, iterStat : ${movie.tags}">
+              <span th:text="${#strings.capitalize(#strings.replace(tag.name(), '_', ' '))}"></span>
+              <span th:if="${!iterStat.last}">, </span>
+            </span>
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+</main>
+
+<!-- Footer Section -->
+<footer class="bg-black text-white py-6 mt-12">
+  <div class="container mx-auto text-center">
+    <p>&copy; 2024 CineTicket. All rights reserved.</p>
+    <div class="mt-4">
+      <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-facebook"></i></a>
+      <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

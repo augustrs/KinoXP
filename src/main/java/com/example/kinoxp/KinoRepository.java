@@ -23,7 +23,7 @@ public class KinoRepository {
                     "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
                     1994, "Frank Darabont",
                     2.2, List.of("Tim Robbins", "Morgan Freeman"),
-                    "https://image-url-for-shawshank-redemption.jpg",
+                    "https://m.media-amazon.com/images/I/71715eBi1sL.jpg",
                     List.of(Tags.Drama, Tags.Alder15)));
 
 

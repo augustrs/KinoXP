@@ -25,4 +25,9 @@ public class KinoController {
         model.addAttribute("movie", kinoService.getMovieById(id));
         return "movie-details";
     }
+    @GetMapping("/movies")
+    public String showAllMovies(Model model) {
+        model.addAttribute("movies", kinoService.getMovies());
+        return "all-movies";
+    }
 }
