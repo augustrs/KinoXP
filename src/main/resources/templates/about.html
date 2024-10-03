@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - CineTicket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-900 text-white">
+<header class="bg-black text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold"><i class="fas fa-film mr-2"></i>CineTicket</h1>
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="/" class="hover:text-yellow-400 transition duration-300">Home</a></li>
+                <li><a href="/movies" class="hover:text-yellow-400 transition duration-300">Movies</a></li>
+                <li><a href="/about" class="hover:text-yellow-400 transition duration-300">About</a></li>
+                <li><a href="/contact" class="hover:text-yellow-400 transition duration-300">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="flex-grow container mx-auto mt-8 px-4">
+    <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">About CineTicket</h2>
+    <div class="bg-gray-800 rounded-lg shadow-lg p-6 max-w-3xl mx-auto">
+        <p class="mb-4">Welcome to CineTicket, your gateway to cinema magic! We are passionate about bringing the best movie experiences to our audience.</p>
+        <p class="mb-4">Our mission is to provide a seamless and enjoyable ticketing experience for movie lovers. With CineTicket, you can easily browse the latest releases, check showtimes, and book your tickets in just a few clicks.</p>
+        <p class="mb-4">What sets us apart:</p>
+        <ul class="list-disc list-inside mb-4 pl-4">
+            <li>Wide selection of movies across various genres</li>
+            <li>User-friendly interface for easy browsing and booking</li>
+            <li>Exclusive deals and promotions for our loyal customers</li>
+            <li>Partnerships with top cinemas to ensure the best viewing experience</li>
+        </ul>
+        <p>Join us in celebrating the magic of cinema. Book your next movie adventure with CineTicket today!</p>
+    </div>
+</main>
+
+<footer class="bg-black text-white py-6 mt-12">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 CineTicket. All rights reserved.</p>
+        <div class="mt-4">
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

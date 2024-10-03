@@ -30,4 +30,14 @@ public class KinoController {
         model.addAttribute("movies", kinoService.getMovies());
         return "all-movies";
     }
+
+    @GetMapping("/about")
+    public String aboutPage() {
+        return "about";
+    }
+
+    @GetMapping("/contact")
+    public String contactPage() {
+        return "contact";
+    }
 }
