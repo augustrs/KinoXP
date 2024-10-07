@@ -51,9 +51,9 @@
                         <span th:if="${!iterStat.last}">, </span>
                     </span>
                 </p>
-                <button class="bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700 transition duration-300">
+                <a th:href="@{'/book/' + ${movie.id}}" class="bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700 transition duration-300 inline-block">
                     <i class="fas fa-ticket-alt mr-2"></i>Book Now
-                </button>
+                </a>
             </div>
         </div>
     </div>

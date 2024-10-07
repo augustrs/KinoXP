@@ -1,5 +1,6 @@
 package com.example.kinoxp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
@@ -14,6 +15,7 @@ public class Movie {
     private String image;
     private List<Tags> tags;
     private Long id;
+    private List<Screening> screenings;
 
     public Movie(Long id, String title, String description, int year, String director, double time, List<String> actors, String image, List<Tags> tags, String youtubeVideoId) {
         this.youtubeVideoId = youtubeVideoId;
@@ -26,6 +28,7 @@ public class Movie {
         this.actors = actors;
         this.image = image;
         this.tags = tags;
+        this.screenings = new ArrayList<>();
     }
 
     public String getTitle() {
@@ -106,5 +109,16 @@ public class Movie {
 
     public void setYoutubeVideoId(String youtubeVideoId) {
         this.youtubeVideoId = youtubeVideoId;
+    }
+    public List<Screening> getScreenings() {
+        return screenings;
+    }
+
+    public void setScreenings(List<Screening> screenings) {
+        this.screenings = screenings;
+    }
+
+    public void addScreening(Screening screening) {
+        this.screenings.add(screening);
     }
 }
