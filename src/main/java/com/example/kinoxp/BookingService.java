@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookingService {
@@ -19,8 +18,8 @@ public class BookingService {
 
     public BookingService() {
         this.cinemaHalls = new ArrayList<>();
-        this.cinemaHalls.add(new CinemaHall("A", 240));
-        this.cinemaHalls.add(new CinemaHall("B", 400));
+        this.cinemaHalls.add(new CinemaHall("A", 240, 20, 12)); // Smallest theater
+        this.cinemaHalls.add(new CinemaHall("B", 400, 25, 16)); // Largest theater
         this.movies = new ArrayList<>();
     }
 
@@ -32,12 +31,14 @@ public class BookingService {
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusDays(90);
 
-        for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
-            createScreeningsForDate(date);
+        for (Movie movie : movies) {
+            for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+                createScreeningsForMovieAndDate(movie, date);
+            }
         }
     }
 
-    private void createScreeningsForDate(LocalDate date) {
+    private void createScreeningsForMovieAndDate(Movie movie, LocalDate date) {
         LocalTime[] screeningTimes = {
                 LocalTime.of(10, 0),
                 LocalTime.of(13, 0),
@@ -49,8 +50,7 @@ public class BookingService {
         for (CinemaHall hall : cinemaHalls) {
             for (LocalTime time : screeningTimes) {
                 LocalDateTime screeningDateTime = LocalDateTime.of(date, time);
-                Movie movie = getRandomMovie();
-                Screening screening = new Screening(generateScreeningId(), movie, hall, screeningDateTime);
+                Screening screening = new Screening(movie, hall, screeningDateTime);
                 movie.addScreening(screening);
             }
         }
@@ -76,21 +76,71 @@ public class BookingService {
                 .orElse(null);
     }
 
-    public Screening getScreeningById(Long id) {
-        return movies.stream()
-                .flatMap(movie -> movie.getScreenings().stream())
-                .filter(screening -> screening.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+    public Screening getScreeningById(Long screeningId) {
+        for (Movie movie : movies) {
+            for (Screening screening : movie.getScreenings()) {
+                if (screening.getId().equals(screeningId)) {
+                    return screening;
+                }
+            }
+        }
+        return null;
     }
 
-    public boolean processBooking(Long screeningId, int numberOfTickets, List<String> extras, String selectedSeats) {
+    public boolean reserveSeats(Long screeningId, List<String> selectedSeats) {
         Screening screening = getScreeningById(screeningId);
-        if (screening != null && screening.getAvailableSeats() >= numberOfTickets) {
-            screening.setAvailableSeats(screening.getAvailableSeats() - numberOfTickets);
-            // In a real application, you would save the booking details here
-            return true;
+        if (screening != null) {
+            synchronized (screening) {
+                for (String seat : selectedSeats) {
+                    int row = seat.charAt(0) - 'A';
+                    int col = Integer.parseInt(seat.substring(1)) - 1;
+                    if (!screening.isSeatAvailable(row, col)) {
+                        return false; // Seat already taken
+                    }
+                }
+                for (String seat : selectedSeats) {
+                    int row = seat.charAt(0) - 'A';
+                    int col = Integer.parseInt(seat.substring(1)) - 1;
+                    screening.reserveSeat(row, col);
+                }
+                return true;
+            }
         }
         return false;
+    }
+
+    public double calculateTotalPrice(int numberOfTickets, List<String> extras) {
+        double basePrice = 10.0; // Base ticket price
+        double totalPrice = numberOfTickets * basePrice;
+
+        if (extras != null) {
+            for (String extra : extras) {
+                switch (extra) {
+                    case "popcorn":
+                        totalPrice += 5.0;
+                        break;
+                    case "soda":
+                        totalPrice += 3.0;
+                        break;
+                }
+            }
+        }
+
+        return totalPrice;
+    }
+
+    public String getSeatingArrangement(Long screeningId) {
+        Screening screening = getScreeningById(screeningId);
+        if (screening != null) {
+            boolean[][] seats = screening.getSeats();
+            StringBuilder sb = new StringBuilder();
+            for (boolean[] row : seats) {
+                for (boolean seat : row) {
+                    sb.append(seat ? "1" : "0");
+                }
+            }
+            return sb.toString();
+        }
+        return "";
     }
 }

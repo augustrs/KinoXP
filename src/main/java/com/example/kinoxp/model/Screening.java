@@ -1,26 +1,24 @@
 package com.example.kinoxp.model;
 
-import com.example.kinoxp.model.CinemaHall;
-import com.example.kinoxp.model.Movie;
-
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Screening {
+    private static long idCounter = 1;
     private Long id;
     private Movie movie;
     private CinemaHall hall;
     private LocalDateTime startTime;
-    private int availableSeats;
+    private boolean[][] seats;
 
-    public Screening(Long id, Movie movie, CinemaHall hall, LocalDateTime startTime) {
-        this.id = id;
+    public Screening(Movie movie, CinemaHall hall, LocalDateTime startTime) {
+        this.id = idCounter++;
         this.movie = movie;
         this.hall = hall;
         this.startTime = startTime;
-        this.availableSeats = hall.getCapacity();
+        this.seats = new boolean[hall.getRows()][hall.getSeatsPerRow()];
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -53,11 +51,24 @@ public class Screening {
         this.startTime = startTime;
     }
 
-    public int getAvailableSeats() {
-        return availableSeats;
+    public boolean[][] getSeats() {
+        return seats;
     }
 
-    public void setAvailableSeats(int availableSeats) {
-        this.availableSeats = availableSeats;
+    public void setSeats(boolean[][] seats) {
+        this.seats = seats;
+    }
+
+    public boolean isSeatAvailable(int row, int col) {
+        return !seats[row][col];
+    }
+
+    public void reserveSeat(int row, int col) {
+        seats[row][col] = true;
+    }
+
+    public String getFormattedStartTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return startTime.format(formatter);
     }
 }

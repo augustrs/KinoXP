@@ -2,7 +2,6 @@ package com.example.kinoxp;
 
 import com.example.kinoxp.model.Movie;
 import com.example.kinoxp.model.Screening;
-import com.example.kinoxp.BookingService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

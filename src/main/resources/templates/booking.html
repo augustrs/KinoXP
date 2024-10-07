@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tickets - CineTicket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <style>
+        .seat {
+            width: 20px;
+            height: 20px;
+            margin: 2px;
+            border-radius: 3px;
+        }
+        .seat:not(.occupied):hover {
+            cursor: pointer;
+            transform: scale(1.2);
+            background-color: #4CAF50;
+        }
+        .screen {
+            height: 70px;
+            background: #fff;
+            width: 100%;
+            margin: 15px 0;
+            transform: rotateX(-45deg);
+            box-shadow: 0 3px 10px rgba(255,255,255,0.7);
+        }
+        .seats-container {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+<header class="bg-black text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold"><i class="fas fa-film mr-2"></i>CineTicket</h1>
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="/" class="hover:text-yellow-400 transition duration-300">Home</a></li>
+                <li><a href="/movies" class="hover:text-yellow-400 transition duration-300">Movies</a></li>
+                <li><a href="/about" class="hover:text-yellow-400 transition duration-300">About</a></li>
+                <li><a href="/contact" class="hover:text-yellow-400 transition duration-300">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container mx-auto mt-8 px-4">
+    <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400" th:text="${movie.title} + ' - Book Tickets'"></h2>
+
+    <div th:if="${screening == null}" class="mb-8">
+        <h3 class="text-xl font-semibold mb-4">Select a Screening:</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <a th:each="scr : ${screenings}"
+               th:href="@{'/book/' + ${movie.id} + '/' + ${scr.id}}"
+               class="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition duration-300">
+                <p th:text="${scr.getFormattedStartTime()}"></p>
+                <p th:text="'Hall: ' + ${scr.hall.name}"></p>
+            </a>
+        </div>
+    </div>
+
+    <div th:if="${screening != null}" class="flex flex-col lg:flex-row gap-8">
+        <!-- Left Side - Booking Options -->
+        <div class="lg:w-1/3 bg-gray-800 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4">Booking Details</h3>
+            <form th:action="@{'/book/' + ${movie.id} + '/' + ${screening.id}}" method="post">
+                <div id="selectedSeatsContainer" class="mb-4">
+                    <label class="block mb-2">Selected Seats:</label>
+                    <!-- Selected seats will be added here dynamically -->
+                </div>
+
+                <div class="mb-4">
+                    <h4 class="font-semibold mb-2">Extra Snacks:</h4>
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="popcorn">Popcorn ($5)</label>
+                        <input type="number" id="popcorn" name="extras_popcorn" min="0" value="0" class="w-20 bg-gray-700 text-white px-3 py-1 rounded">
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="soda">Soda ($3)</label>
+                        <input type="number" id="soda" name="extras_soda" min="0" value="0" class="w-20 bg-gray-700 text-white px-3 py-1 rounded">
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h4 class="font-semibold mb-2">Total Price:</h4>
+                    <p id="total-price" class="text-2xl font-bold text-yellow-400">$0.00</p>
+                </div>
+
+                <button type="submit" class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300 w-full">
+                    Confirm Booking
+                </button>
+            </form>
+        </div>
+
+        <!-- Right Side - Seat Selection -->
+        <div class="lg:w-2/3 bg-gray-800 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4">
+                Select Seats - Hall [[${screening.hall.name}]]
+            </h3>
+            <div class="showcase flex justify-center mb-4">
+                <div class="seat bg-gray-600"></div>
+                <small class="mr-2">Available</small>
+                <div class="seat bg-yellow-400"></div>
+                <small class="mr-2">Selected</small>
+                <div class="seat bg-red-600"></div>
+                <small>Occupied</small>
+            </div>
+            <div class="screen"></div>
+            <div class="seats-container overflow-x-auto">
+                <div id="seatingChart" class="flex flex-col items-center">
+                    <!-- Seating chart will be generated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-black text-white py-6 mt-12">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 CineTicket. All rights reserved.</p>
+        <div class="mt-4">
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script th:inline="javascript">
+    const seatingChart = document.getElementById('seatingChart');
+    const selectedSeatsContainer = document.getElementById('selectedSeatsContainer');
+    const form = document.querySelector('form');
+    const seatingArrangement = /*[[${seatingArrangement}]]*/ '';
+    const totalPriceElement = document.getElementById('total-price');
+
+    const hallName = /*[[${screening.hall.name}]]*/ '';
+    const rows = hallName === 'A' ? 12 : 16;
+    const seatsPerRow = hallName === 'A' ? 20 : 25;
+
+    const TICKET_PRICE = 10;
+    const POPCORN_PRICE = 5;
+    const SODA_PRICE = 3;
+
+    // Generate seating chart
+    for (let i = 0; i < rows; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex justify-center mb-1';
+
+        for (let j = 0; j < seatsPerRow; j++) {
+            const seat = document.createElement('div');
+            seat.className = 'seat';
+            const seatIndex = i * seatsPerRow + j;
+            seat.dataset.seat = `${String.fromCharCode(65 + i)}${j + 1}`;
+
+            if (seatingArrangement[seatIndex] === '1') {
+                seat.classList.add('bg-red-600');
+                seat.classList.add('cursor-not-allowed');
+            } else {
+                seat.classList.add('bg-gray-600');
+                seat.addEventListener('click', () => toggleSeat(seat));
+            }
+
+            row.appendChild(seat);
+        }
+        seatingChart.appendChild(row);
+    }
+
+    function toggleSeat(seat) {
+        seat.classList.toggle('bg-yellow-400');
+        updateSelectedSeats();
+    }
+
+    function updateSelectedSeats() {
+        const selectedSeats = Array.from(seatingChart.querySelectorAll('.bg-yellow-400')).map(seat => seat.dataset.seat);
+        selectedSeatsContainer.innerHTML = '<label class="block mb-2">Selected Seats:</label>';
+        selectedSeats.forEach(seat => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selectedSeats';
+            input.value = seat;
+            selectedSeatsContainer.appendChild(input);
+
+            const seatLabel = document.createElement('span');
+            seatLabel.textContent = seat + ' ';
+            seatLabel.className = 'mr-2';
+            selectedSeatsContainer.appendChild(seatLabel);
+        });
+
+        // Update number of tickets
+        const numberOfTicketsInput = document.createElement('input');
+        numberOfTicketsInput.type = 'hidden';
+        numberOfTicketsInput.name = 'numberOfTickets';
+        numberOfTicketsInput.value = selectedSeats.length;
+        selectedSeatsContainer.appendChild(numberOfTicketsInput);
+
+        updateTotalPrice();
+    }
+
+    function updateTotalPrice() {
+        const selectedSeats = Array.from(seatingChart.querySelectorAll('.bg-yellow-400'));
+        const popcornCount = parseInt(document.getElementById('popcorn').value) || 0;
+        const sodaCount = parseInt(document.getElementById('soda').value) || 0;
+
+        const totalPrice =
+            (selectedSeats.length * TICKET_PRICE) +
+            (popcornCount * POPCORN_PRICE) +
+            (sodaCount * SODA_PRICE);
+
+        totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
+    }
+
+    // Event listeners for extras
+    document.getElementById('popcorn').addEventListener('change', updateTotalPrice);
+    document.getElementById('soda').addEventListener('change', updateTotalPrice);
+
+    // Initial price update
+    updateTotalPrice();
+</script>
+</body>
+</html>
