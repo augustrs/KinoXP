@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  kinoxp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kinoxp:latest
+    container_name: kinoxp
+    ports:
+      - "8081:8080"
