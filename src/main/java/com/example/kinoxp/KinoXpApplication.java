@@ -10,4 +10,5 @@ public class KinoXpApplication {
         SpringApplication.run(KinoXpApplication.class, args);
     }
 
+
 }
