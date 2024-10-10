@@ -29,7 +29,7 @@ public class Movie {
         this.time = time;
         this.actors = actors;
         this.image = image;
-        this.tags = tags;
+        this.tags = new ArrayList<>();
         this.screenings = new ArrayList<>();
     }
 

@@ -28,6 +28,8 @@ public class KinoRepository {
         return movies;
     }
     public Movie addMovie(Movie movie) {
+        Long newId = getNextId();
+        movie.setId(newId);
         movies.add(movie);
         return movie;
     }
@@ -42,5 +44,8 @@ public class KinoRepository {
     }
     public void deleteMovie(Long id) {
         movies.removeIf(movie -> movie.getId().equals(id));
+    }
+    public Long getNextId() {
+        return movies.stream().mapToLong(Movie::getId).max().orElse(0) + 1;
     }
 }
