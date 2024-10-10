@@ -17,6 +17,7 @@ public class EmployeeRepository {
     public List<Shift> getAllShifts() {
         return shifts;
     }
+
     public Shift addShift(Shift shift) {
         shifts.add(shift);
         return shift;

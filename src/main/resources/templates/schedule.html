@@ -44,7 +44,8 @@
     </div>
 
     <div class="text-center">
-        <button onclick="openShiftModal()" class="bg-yellow-400 text-black font-bold py-2 px-4 rounded hover:bg-yellow-500 transition duration-300">
+        <button onclick="openShiftModal()"
+                class="bg-yellow-400 text-black font-bold py-2 px-4 rounded hover:bg-yellow-500 transition duration-300">
             Add New Shift
         </button>
     </div>
@@ -68,7 +69,8 @@
         <form id="shiftForm">
             <div class="mb-4">
                 <label for="workerName" class="block text-sm font-medium text-gray-300 mb-2">Worker Name</label>
-                <input type="text" id="workerName" name="workerName" class="w-full bg-gray-700 text-white rounded px-3 py-2" required>
+                <input type="text" id="workerName" name="workerName"
+                       class="w-full bg-gray-700 text-white rounded px-3 py-2" required>
             </div>
             <div class="mb-4">
                 <label for="day" class="block text-sm font-medium text-gray-300 mb-2">Day</label>
@@ -84,15 +86,23 @@
             </div>
             <div class="mb-4">
                 <label for="startTime" class="block text-sm font-medium text-gray-300 mb-2">Start Time</label>
-                <input type="time" id="startTime" name="startTime" class="w-full bg-gray-700 text-white rounded px-3 py-2" required>
+                <input type="time" id="startTime" name="startTime"
+                       class="w-full bg-gray-700 text-white rounded px-3 py-2" required>
             </div>
             <div class="mb-4">
                 <label for="endTime" class="block text-sm font-medium text-gray-300 mb-2">End Time</label>
-                <input type="time" id="endTime" name="endTime" class="w-full bg-gray-700 text-white rounded px-3 py-2" required>
+                <input type="time" id="endTime" name="endTime" class="w-full bg-gray-700 text-white rounded px-3 py-2"
+                       required>
             </div>
             <div class="flex justify-end">
-                <button type="button" onclick="closeShiftModal()" class="bg-gray-600 text-white px-4 py-2 rounded mr-2 hover:bg-gray-700 transition duration-300">Cancel</button>
-                <button type="submit" class="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500 transition duration-300">Add Shift</button>
+                <button type="button" onclick="closeShiftModal()"
+                        class="bg-gray-600 text-white px-4 py-2 rounded mr-2 hover:bg-gray-700 transition duration-300">
+                    Cancel
+                </button>
+                <button type="submit"
+                        class="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500 transition duration-300">
+                    Add Shift
+                </button>
             </div>
         </form>
     </div>
@@ -109,7 +119,7 @@
         document.getElementById('shiftModal').classList.remove('flex');
     }
 
-    document.getElementById('shiftForm').addEventListener('submit', function(e) {
+    document.getElementById('shiftForm').addEventListener('submit', function (e) {
         e.preventDefault();
         const shift = {
             workerName: document.getElementById('workerName').value,

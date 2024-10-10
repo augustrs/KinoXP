@@ -1,117 +1,131 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CineTicket - Edit Movie</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineTicket - Edit Movie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-900 text-white">
 
 <header class="bg-black text-white p-4 shadow-md">
-  <div class="container mx-auto flex justify-between items-center">
-    <h1 class="text-2xl font-bold"><i class="fas fa-film mr-2"></i>CineTicket</h1>
-    <nav>
-      <ul class="flex space-x-4">
-        <li><a href="/" class="hover:text-yellow-400 transition duration-300">Home</a></li>
-        <li><a href="/movies" class="hover:text-yellow-400 transition duration-300">Movies</a></li>
-        <li><a href="/about" class="hover:text-yellow-400 transition duration-300">About</a></li>
-        <li><a href="/contact" class="hover:text-yellow-400 transition duration-300">Contact</a></li>
-        <li><a href="/manage-movies" class="hover:text-yellow-400 transition duration-300">Manage Movies</a></li>
-      </ul>
-    </nav>
-  </div>
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold"><i class="fas fa-film mr-2"></i>CineTicket</h1>
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="/" class="hover:text-yellow-400 transition duration-300">Home</a></li>
+                <li><a href="/movies" class="hover:text-yellow-400 transition duration-300">Movies</a></li>
+                <li><a href="/about" class="hover:text-yellow-400 transition duration-300">About</a></li>
+                <li><a href="/contact" class="hover:text-yellow-400 transition duration-300">Contact</a></li>
+                <li><a href="/manage-movies" class="hover:text-yellow-400 transition duration-300">Manage Movies</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </header>
 
 <main class="flex-grow container mx-auto mt-8 px-4">
-  <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">Edit Movie</h2>
+    <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">Edit Movie</h2>
 
-  <div class="bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto">
-    <form th:action="@{'/edit-movie/' + ${movie.id}}" method="post" class="space-y-4">
-      <div>
-        <label for="title" class="block text-sm font-medium text-gray-400">Title</label>
-        <input type="text" id="title" name="title" th:value="${movie.title}" class="mt-1 block w-full p-2 bg-gray-700 rounded">
-      </div>
-      <div>
-        <label for="description" class="block text-sm font-medium text-gray-400">Description</label>
-        <textarea id="description" name="description" rows="4" class="mt-1 block w-full p-2 bg-gray-700 rounded" th:text="${movie.description}"></textarea>
-      </div>
-      <div>
-        <label for="year" class="block text-sm font-medium text-gray-400">Year</label>
-        <input type="number" id="year" name="year" th:value="${movie.year}" class="mt-1 block w-full p-2 bg-gray-700 rounded">
-      </div>
-      <div>
-        <label for="director" class="block text-sm font-medium text-gray-400">Director</label>
-        <input type="text" id="director" name="director" th:value="${movie.director}" class="mt-1 block w-full p-2 bg-gray-700 rounded">
-      </div>
-      <div>
-        <label for="time" class="block text-sm font-medium text-gray-400">Duration (hours)</label>
-        <input type="number" step="0.1" id="time" name="time" th:value="${movie.time}" class="mt-1 block w-full p-2 bg-gray-700 rounded">
-      </div>
-      <div>
-        <label for="image" class="block text-sm font-medium text-gray-400">Image URL</label>
-        <input type="text" id="image" name="image" th:value="${movie.image}" class="mt-1 block w-full p-2 bg-gray-700 rounded">
-      </div>
-      <div>
-        <label for="youtubeVideoId" class="block text-sm font-medium text-gray-400">YouTube Video ID</label>
-        <input type="text" id="youtubeVideoId" name="youtubeVideoId" th:value="${movie.youtubeVideoId}" class="mt-1 block w-full p-2 bg-gray-700 rounded">
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-400">Tags</label>
-        <div class="mt-2 space-y-2">
-          <div th:each="tag : ${T(com.example.kinoxp.model.Tags).values()}" class="flex items-center">
-            <input type="checkbox" th:id="${'tag-' + tag}" th:name="tags" th:value="${tag}"
-                   th:checked="${movie.tags.contains(tag)}" class="mr-2">
-            <label th:for="${'tag-' + tag}" th:text="${#strings.capitalize(#strings.replace(tag.name(), '_', ' '))}"></label>
-          </div>
-        </div>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-400">Actors</label>
-        <div id="actorInputs" class="space-y-2">
-          <div th:each="actor, iterStat : ${movie.actors}" class="flex items-center">
-            <input type="text" th:name="'actors[' + ${iterStat.index} + ']'" th:value="${actor}" class="mt-1 block w-full p-2 bg-gray-700 rounded">
-            <button type="button" onclick="removeActor(this)" class="ml-2 text-red-500">Remove</button>
-          </div>
-        </div>
-        <button type="button" onclick="addActor()" class="mt-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-400">Add Actor</button>
-      </div>
-      <div class="flex justify-between">
-        <button type="submit" class="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300">Save Changes</button>
-        <a href="/manage-movies" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-400">Cancel</a>
-      </div>
-    </form>
-  </div>
+    <div class="bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto">
+        <form th:action="@{'/edit-movie/' + ${movie.id}}" method="post" class="space-y-4">
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-400">Title</label>
+                <input type="text" id="title" name="title" th:value="${movie.title}"
+                       class="mt-1 block w-full p-2 bg-gray-700 rounded">
+            </div>
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-400">Description</label>
+                <textarea id="description" name="description" rows="4" class="mt-1 block w-full p-2 bg-gray-700 rounded"
+                          th:text="${movie.description}"></textarea>
+            </div>
+            <div>
+                <label for="year" class="block text-sm font-medium text-gray-400">Year</label>
+                <input type="number" id="year" name="year" th:value="${movie.year}"
+                       class="mt-1 block w-full p-2 bg-gray-700 rounded">
+            </div>
+            <div>
+                <label for="director" class="block text-sm font-medium text-gray-400">Director</label>
+                <input type="text" id="director" name="director" th:value="${movie.director}"
+                       class="mt-1 block w-full p-2 bg-gray-700 rounded">
+            </div>
+            <div>
+                <label for="time" class="block text-sm font-medium text-gray-400">Duration (hours)</label>
+                <input type="number" step="0.1" id="time" name="time" th:value="${movie.time}"
+                       class="mt-1 block w-full p-2 bg-gray-700 rounded">
+            </div>
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-400">Image URL</label>
+                <input type="text" id="image" name="image" th:value="${movie.image}"
+                       class="mt-1 block w-full p-2 bg-gray-700 rounded">
+            </div>
+            <div>
+                <label for="youtubeVideoId" class="block text-sm font-medium text-gray-400">YouTube Video ID</label>
+                <input type="text" id="youtubeVideoId" name="youtubeVideoId" th:value="${movie.youtubeVideoId}"
+                       class="mt-1 block w-full p-2 bg-gray-700 rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-400">Tags</label>
+                <div class="mt-2 space-y-2">
+                    <div th:each="tag : ${T(com.example.kinoxp.model.Tags).values()}" class="flex items-center">
+                        <input type="checkbox" th:id="${'tag-' + tag}" th:name="tags" th:value="${tag}"
+                               th:checked="${movie.tags.contains(tag)}" class="mr-2">
+                        <label th:for="${'tag-' + tag}"
+                               th:text="${#strings.capitalize(#strings.replace(tag.name(), '_', ' '))}"></label>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-400">Actors</label>
+                <div id="actorInputs" class="space-y-2">
+                    <div th:each="actor, iterStat : ${movie.actors}" class="flex items-center">
+                        <input type="text" th:name="'actors[' + ${iterStat.index} + ']'" th:value="${actor}"
+                               class="mt-1 block w-full p-2 bg-gray-700 rounded">
+                        <button type="button" onclick="removeActor(this)" class="ml-2 text-red-500">Remove</button>
+                    </div>
+                </div>
+                <button type="button" onclick="addActor()"
+                        class="mt-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-400">Add Actor
+                </button>
+            </div>
+            <div class="flex justify-between">
+                <button type="submit" class="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300">Save
+                    Changes
+                </button>
+                <a href="/manage-movies" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-400">Cancel</a>
+            </div>
+        </form>
+    </div>
 </main>
 
 <footer class="bg-black text-white py-6 mt-12">
-  <div class="container mx-auto text-center">
-    <p>&copy; 2024 CineTicket. All rights reserved.</p>
-    <div class="mt-4">
-      <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-facebook"></i></a>
-      <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-twitter"></i></a>
-      <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-instagram"></i></a>
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 CineTicket. All rights reserved.</p>
+        <div class="mt-4">
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-instagram"></i></a>
+        </div>
     </div>
-  </div>
 </footer>
 
 <script>
-  function addActor() {
-    const actorInputs = document.getElementById('actorInputs');
-    const newIndex = actorInputs.children.length;
-    const newInput = document.createElement('div');
-    newInput.className = 'flex items-center';
-    newInput.innerHTML = `
+    function addActor() {
+        const actorInputs = document.getElementById('actorInputs');
+        const newIndex = actorInputs.children.length;
+        const newInput = document.createElement('div');
+        newInput.className = 'flex items-center';
+        newInput.innerHTML = `
             <input type="text" name="actors[${newIndex}]" class="mt-1 block w-full p-2 bg-gray-700 rounded">
             <button type="button" onclick="removeActor(this)" class="ml-2 text-red-500">Remove</button>
         `;
-    actorInputs.appendChild(newInput);
-  }
+        actorInputs.appendChild(newInput);
+    }
 
-  function removeActor(button) {
-    button.parentElement.remove();
-  }
+    function removeActor(button) {
+        button.parentElement.remove();
+    }
 </script>
 
 </body>

@@ -19,14 +19,16 @@ public class KinoController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("movies" , kinoService.getMovies());
+        model.addAttribute("movies", kinoService.getMovies());
         return "index";
     }
+
     @GetMapping("/movie/{id}")
     public String movieDetails(@PathVariable Long id, Model model) {
         model.addAttribute("movie", kinoService.getMovieById(id));
         return "movie-details";
     }
+
     @GetMapping("/movies")
     public String showAllMovies(Model model) {
         model.addAttribute("movies", kinoService.getMovies());
@@ -79,7 +81,6 @@ public class KinoController {
         kinoService.editMovie(existingMovie);
         return "redirect:/manage-movies";
     }
-
 
 
     @GetMapping("/delete-movie/{id}")

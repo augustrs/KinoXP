@@ -13,19 +13,22 @@
             margin: 2px;
             border-radius: 3px;
         }
+
         .seat:not(.occupied):hover {
             cursor: pointer;
             transform: scale(1.2);
             background-color: #4CAF50;
         }
+
         .screen {
             height: 70px;
             background: #fff;
             width: 100%;
             margin: 15px 0;
             transform: rotateX(-45deg);
-            box-shadow: 0 3px 10px rgba(255,255,255,0.7);
+            box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
         }
+
         .seats-container {
             overflow-x: auto;
         }
@@ -75,11 +78,13 @@
                     <h4 class="font-semibold mb-2">Extra Snacks:</h4>
                     <div class="flex items-center justify-between mb-2">
                         <label for="popcorn">Popcorn ($5)</label>
-                        <input type="number" id="popcorn" name="extras_popcorn" min="0" value="0" class="w-20 bg-gray-700 text-white px-3 py-1 rounded">
+                        <input type="number" id="popcorn" name="extras_popcorn" min="0" value="0"
+                               class="w-20 bg-gray-700 text-white px-3 py-1 rounded">
                     </div>
                     <div class="flex items-center justify-between mb-2">
                         <label for="soda">Soda ($3)</label>
-                        <input type="number" id="soda" name="extras_soda" min="0" value="0" class="w-20 bg-gray-700 text-white px-3 py-1 rounded">
+                        <input type="number" id="soda" name="extras_soda" min="0" value="0"
+                               class="w-20 bg-gray-700 text-white px-3 py-1 rounded">
                     </div>
                 </div>
 
@@ -88,7 +93,8 @@
                     <p id="total-price" class="text-2xl font-bold text-yellow-400">$0.00</p>
                 </div>
 
-                <button type="submit" class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300 w-full">
+                <button type="submit"
+                        class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300 w-full">
                     Confirm Booking
                 </button>
             </form>

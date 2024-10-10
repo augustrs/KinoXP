@@ -35,6 +35,7 @@ public class KinoService {
     public Movie addMovie(Movie movie) {
         return kinoRepository.addMovie(movie);
     }
+
     public Movie editMovie(Movie movie) {
         return kinoRepository.editMovie(movie);
     }

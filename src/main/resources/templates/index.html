@@ -25,7 +25,8 @@
 <main class="flex-grow container mx-auto mt-8 px-4">
     <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">Now Showing</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div th:each="movie, iterStat : ${movies}" th:if="${iterStat.index < 3}" class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+        <div th:each="movie, iterStat : ${movies}" th:if="${iterStat.index < 3}"
+             class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
             <a th:href="@{'/movie/' + ${movie.id}}" class="block">
                 <div class="h-96 overflow-hidden">
                     <img th:src="${movie.image}" th:alt="${movie.title}" class="w-full h-full object-cover object-top">
