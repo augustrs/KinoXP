@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineTicket - Employee Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-900 text-white">
+<header class="bg-black text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold"><i class="fas fa-film mr-2"></i>CineTicket</h1>
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="/" class="hover:text-yellow-400 transition duration-300">Home</a></li>
+                <li><a href="/movies" class="hover:text-yellow-400 transition duration-300">Movies</a></li>
+                <li><a href="/about" class="hover:text-yellow-400 transition duration-300">About</a></li>
+                <li><a href="/contact" class="hover:text-yellow-400 transition duration-300">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="flex-grow container mx-auto mt-8 px-4">
+    <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">Employee Dashboard</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="/manage-movies" class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+            <div class="p-6 text-center">
+                <i class="fas fa-film text-5xl mb-4 text-yellow-400"></i>
+                <h3 class="text-xl font-semibold mb-2 text-yellow-400">Manage Movies</h3>
+                <p class="text-gray-300">Add, edit, or remove movies from the system</p>
+            </div>
+        </a>
+        <a href="/manage-schedule" class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+            <div class="p-6 text-center">
+                <i class="fas fa-calendar-alt text-5xl mb-4 text-yellow-400"></i>
+                <h3 class="text-xl font-semibold mb-2 text-yellow-400">Manage Schedule</h3>
+                <p class="text-gray-300">Manage/view the work schedule</p>
+            </div>
+        </a>
+        <a href="/manage-tickets" class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+            <div class="p-6 text-center">
+                <i class="fas fa-ticket-alt text-5xl mb-4 text-yellow-400"></i>
+                <h3 class="text-xl font-semibold mb-2 text-yellow-400">Manage Tickets</h3>
+                <p class="text-gray-300">View and manage ticket sales and reservations</p>
+            </div>
+        </a>
+    </div>
+</main>
+
+<footer class="bg-black text-white py-6 mt-12">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 CineTicket. All rights reserved.</p>
+        <div class="mt-4">
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

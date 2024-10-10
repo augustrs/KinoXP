@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineTicket - Work Schedule</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-900 text-white">
+<header class="bg-black text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold"><i class="fas fa-film mr-2"></i>CineTicket</h1>
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="/" class="hover:text-yellow-400 transition duration-300">Home</a></li>
+                <li><a href="/movies" class="hover:text-yellow-400 transition duration-300">Movies</a></li>
+                <li><a href="/about" class="hover:text-yellow-400 transition duration-300">About</a></li>
+                <li><a href="/contact" class="hover:text-yellow-400 transition duration-300">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="flex-grow container mx-auto mt-8 px-4">
+    <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">Work Schedule</h2>
+
+    <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-8">
+        <div class="p-6">
+            <div class="grid grid-cols-8 gap-2 font-semibold mb-4 text-center">
+                <div class="text-yellow-400">Time</div>
+                <div class="text-yellow-400">Monday</div>
+                <div class="text-yellow-400">Tuesday</div>
+                <div class="text-yellow-400">Wednesday</div>
+                <div class="text-yellow-400">Thursday</div>
+                <div class="text-yellow-400">Friday</div>
+                <div class="text-yellow-400">Saturday</div>
+                <div class="text-yellow-400">Sunday</div>
+            </div>
+            <div id="scheduleGrid" class="grid grid-cols-8 gap-2 text-sm">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button onclick="openShiftModal()" class="bg-yellow-400 text-black font-bold py-2 px-4 rounded hover:bg-yellow-500 transition duration-300">
+            Add New Shift
+        </button>
+    </div>
+</main>
+
+<footer class="bg-black text-white py-6 mt-12">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2023 CineTicket. All rights reserved.</p>
+        <div class="mt-4">
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 mx-2"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</footer>
+
+<!-- Modal for adding new shifts -->
+<div id="shiftModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-gray-800 p-8 rounded-lg">
+        <h3 class="text-2xl font-bold mb-4 text-yellow-400">Add New Shift</h3>
+        <form id="shiftForm">
+            <div class="mb-4">
+                <label for="workerName" class="block text-sm font-medium text-gray-300 mb-2">Worker Name</label>
+                <input type="text" id="workerName" name="workerName" class="w-full bg-gray-700 text-white rounded px-3 py-2" required>
+            </div>
+            <div class="mb-4">
+                <label for="day" class="block text-sm font-medium text-gray-300 mb-2">Day</label>
+                <select id="day" name="day" class="w-full bg-gray-700 text-white rounded px-3 py-2">
+                    <option value="1">Monday</option>
+                    <option value="2">Tuesday</option>
+                    <option value="3">Wednesday</option>
+                    <option value="4">Thursday</option>
+                    <option value="5">Friday</option>
+                    <option value="6">Saturday</option>
+                    <option value="7">Sunday</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="startTime" class="block text-sm font-medium text-gray-300 mb-2">Start Time</label>
+                <input type="time" id="startTime" name="startTime" class="w-full bg-gray-700 text-white rounded px-3 py-2" required>
+            </div>
+            <div class="mb-4">
+                <label for="endTime" class="block text-sm font-medium text-gray-300 mb-2">End Time</label>
+                <input type="time" id="endTime" name="endTime" class="w-full bg-gray-700 text-white rounded px-3 py-2" required>
+            </div>
+            <div class="flex justify-end">
+                <button type="button" onclick="closeShiftModal()" class="bg-gray-600 text-white px-4 py-2 rounded mr-2 hover:bg-gray-700 transition duration-300">Cancel</button>
+                <button type="submit" class="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500 transition duration-300">Add Shift</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openShiftModal() {
+        document.getElementById('shiftModal').classList.remove('hidden');
+        document.getElementById('shiftModal').classList.add('flex');
+    }
+
+    function closeShiftModal() {
+        document.getElementById('shiftModal').classList.add('hidden');
+        document.getElementById('shiftModal').classList.remove('flex');
+    }
+
+    document.getElementById('shiftForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const shift = {
+            workerName: document.getElementById('workerName').value,
+            day: parseInt(document.getElementById('day').value),
+            startTime: document.getElementById('startTime').value,
+            endTime: document.getElementById('endTime').value
+        };
+
+        fetch('/api/shifts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(shift),
+        })
+            .then(response => response.json())
+            .then(data => {
+                loadShifts();
+                closeShiftModal();
+                this.reset();
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    function loadShifts() {
+        fetch('/api/shifts')
+            .then(response => response.json())
+            .then(shifts => {
+                const scheduleGrid = document.getElementById('scheduleGrid');
+                scheduleGrid.innerHTML = '';
+                for (let hour = 9; hour <= 22; hour++) {
+                    scheduleGrid.innerHTML += `<div class="text-right pr-2">${hour.toString().padStart(2, '0')}:00</div>`;
+                    for (let day = 1; day <= 7; day++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'bg-gray-700 rounded p-1 min-h-[40px] overflow-y-auto max-h-[80px]';
+                        cell.setAttribute('data-day', day);
+                        cell.setAttribute('data-hour', hour);
+                        const cellShifts = shifts.filter(shift =>
+                            shift.day === day &&
+                            parseInt(shift.startTime.split(':')[0]) <= hour &&
+                            parseInt(shift.endTime.split(':')[0]) > hour
+                        );
+                        cell.innerHTML = cellShifts.map(shift => `
+                            <div class="text-xs bg-yellow-400 text-black p-1 mb-1 rounded">
+                                ${shift.workerName}: ${shift.startTime} - ${shift.endTime}
+                            </div>
+                        `).join('');
+                        scheduleGrid.appendChild(cell);
+                    }
+                }
+            })
+            .catch(error => console.error('Error loading shifts:', error));
+    }
+
+    loadShifts();
+</script>
+
+</body>
+</html>

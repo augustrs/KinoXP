@@ -1,9 +1,11 @@
 package com.example.kinoxp;
 
+import com.example.kinoxp.model.Movie;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 
@@ -40,4 +42,50 @@ public class KinoController {
     public String contactPage() {
         return "contact";
     }
+
+    @GetMapping("/manage-movies")
+    public String manageMoviesPage(Model model) {
+        model.addAttribute("movies", kinoService.getMovies());
+        return "manage-movies";
+    }
+
+    @PostMapping("/add-movie")
+    public String addMovie(@ModelAttribute Movie movie) {
+        kinoService.addMovie(movie);
+        return "redirect:/manage-movies";
+    }
+
+    @GetMapping("/edit-movie/{id}")
+    public String editMovieForm(@PathVariable Long id, Model model) {
+        Movie movie = kinoService.getMovieById(id);
+        model.addAttribute("movie", movie);
+        return "edit-movie";
+    }
+
+    @PostMapping("/edit-movie/{id}")
+    public String editMovie(@PathVariable Long id, @ModelAttribute Movie movie) {
+        Movie existingMovie = kinoService.getMovieById(id);
+
+        existingMovie.setTitle(movie.getTitle());
+        existingMovie.setDescription(movie.getDescription());
+        existingMovie.setYear(movie.getYear());
+        existingMovie.setDirector(movie.getDirector());
+        existingMovie.setTime(movie.getTime());
+        existingMovie.setActors(movie.getActors());
+        existingMovie.setImage(movie.getImage());
+        existingMovie.setTags(movie.getTags());
+        existingMovie.setYoutubeVideoId(movie.getYoutubeVideoId());
+
+        kinoService.editMovie(existingMovie);
+        return "redirect:/manage-movies";
+    }
+
+
+
+    @GetMapping("/delete-movie/{id}")
+    public String deleteMovie(@PathVariable Long id) {
+        kinoService.deleteMovie(id);
+        return "redirect:/manage-movies";
+    }
+
 }

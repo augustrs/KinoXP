@@ -31,4 +31,15 @@ public class KinoService {
         Movie movie = getMovieById(movieId);
         return movie.getScreenings();
     }
+
+    public Movie addMovie(Movie movie) {
+        return kinoRepository.addMovie(movie);
+    }
+    public Movie editMovie(Movie movie) {
+        return kinoRepository.editMovie(movie);
+    }
+
+    public void deleteMovie(Long id) {
+        kinoRepository.deleteMovie(id);
+    }
 }

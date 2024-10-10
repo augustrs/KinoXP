@@ -27,4 +27,20 @@ public class KinoRepository {
     public List<Movie> getMovies() {
         return movies;
     }
+    public Movie addMovie(Movie movie) {
+        movies.add(movie);
+        return movie;
+    }
+    public Movie editMovie(Movie movie) {
+        for (int i = 0; i < movies.size(); i++) {
+            if (movies.get(i).getId().equals(movie.getId())) {
+                movies.set(i, movie);
+                return movie;
+            }
+        }
+        return null;
+    }
+    public void deleteMovie(Long id) {
+        movies.removeIf(movie -> movie.getId().equals(id));
+    }
 }
